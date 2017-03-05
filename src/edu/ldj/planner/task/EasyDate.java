@@ -30,7 +30,7 @@ public class EasyDate {
 	 * @param month
 	 * @param day
 	 */
-	public EasyDate(int year, int month, int day) {
+	public EasyDate( int year, int month, int day ) {
 		super();
 		setYear( year );
 		setMonth( month );
@@ -49,7 +49,7 @@ public class EasyDate {
 	 * Sets the year
 	 * @param year to set
 	 */
-	public void setYear(int year) {
+	public void setYear( int year ) {
 		this.year = year;
 	}
 	
@@ -65,7 +65,7 @@ public class EasyDate {
 	 * Sets the month
 	 * @param month to set
 	 */
-	public void setMonth(int month) {
+	public void setMonth( int month ) {
 		if( month < 1 || month > 12 )
 			throw new IllegalArgumentException( "Months range from 1 to 12" );
 		this.month = month;
@@ -111,10 +111,28 @@ public class EasyDate {
 	 * Sets the day
 	 * @param day to set
 	 */
-	public void setDay(int day) {
+	public void setDay( int day ) {
 		if( day < 1 || day > getMonthDays() )
 			throw new IllegalArgumentException( "There are only so many days in a month" );
 		this.day = day;
+	}
+	
+	/**
+	 * Adds the specified number of days to this EasyDate, changing it accordingly.
+	 * @param num - number of days to add
+	 */
+	public void addDays( int num ) {
+		for( int i = 0; i < num; i++ ) {
+			day++;
+			if ( day > getMonthDays() ) {
+				day = 0;
+				month++;
+			}
+			if ( month > 12 ) {
+				month = 1;
+				year++;
+			}
+		}
 	}
 	
 	/**

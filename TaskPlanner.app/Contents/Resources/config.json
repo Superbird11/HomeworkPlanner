@@ -1,0 +1,9 @@
+{
+  "classPath": [
+    "FilePlanner.jar"
+  ],
+  "mainClass": "edu.ldj.planner.io.TaskPlannerGUI",
+  "vmArgs": [
+    "-Xmx1G"
+  ]
+}

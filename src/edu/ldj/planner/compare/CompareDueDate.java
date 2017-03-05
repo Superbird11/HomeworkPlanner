@@ -34,4 +34,14 @@ public class CompareDueDate< T extends Task > implements Comparator<T> {
 		return 0;
 	}
 
+	/**
+	 * Compares the given task with the given EasyDate
+	 * @param task to compare
+	 * @param date to compare with
+	 * @return >1 if the given date comes sooner than task1's due date
+	 */
+	@SuppressWarnings("unchecked")
+	public int compareDate( T task, EasyDate date ) {
+		return compare( task, (T) new Task( 0, date, 0.0, "", "", "" ) );
+	}
 }

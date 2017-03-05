@@ -1,5 +1,6 @@
 package edu.ldj.planner.list;
 
+import edu.ldj.planner.compare.Filter;
 import edu.ldj.planner.io.InvalidFileFormatException;
 import edu.ldj.planner.task.*;
 
@@ -113,6 +114,38 @@ public class TaskList {
 	}
 	
 	/**
+	 * Removes the task at a certain index, after the filter has been applied
+	 * @param filter to apply
+	 * @param idx to remove after applying the filter
+	 */
+	public void removeFiltered( Filter filter, int idx ) {
+		int ct = 0, i = 0;
+		for ( i = 0; i < tasks.size() && ct < idx; i++ ) {
+			if ( filter.meetsFilter( tasks.get( i ) ) )
+				ct++;
+		}
+		tasks.remove( i );
+	}
+	
+	/**
+	 * Returns the task at a certain index, after the filter has been applied
+	 * @param filter to apply
+	 * @param idx to get after applying the filter
+	 * @return the requested task from the list
+	 */
+	public Task getFiltered( Filter filter, int idx ) {
+		int ct = -1, i = 0;
+		for ( i = 0; i < tasks.size() && ct < idx; i++ ) {
+			if ( filter.meetsFilter( tasks.get( i ) ) ) {
+				ct++;
+			}
+			if ( ct == idx )
+				break;
+		}
+		return tasks.get( i );
+	}
+	
+	/**
 	 * Returns the String representations of every task in the task list
 	 * @return all Tasks's string representations concatenated together
 	 */
@@ -126,14 +159,16 @@ public class TaskList {
 	
 	/**
 	 * Returns this TaskList as an array of Strings, instead of as a single String
+	 * @param filter that all returned Strings must fit
 	 * @return an array of all Tasks individually outputted as Strings
 	 */
-	public String[] toStringArray() {
+	public String[] toStringArray( Filter filter ) {
 		ArrayList< String > ret = new ArrayList< String >();
 		ret.add( String.format( "%8s | %11s | %12s | %30s | %5s | %12s", "Priority", "Due Date", "Name", "Description", "Time", "Class" ) );
 		ret.add( "---------+-------------+--------------+--------------------------------+-------+-------------" );
 		for ( Task t : tasks ) {
-			ret.add( t.toString() );
+			if ( filter.meetsFilter( t ) )
+				ret.add( t.toString() );
 		}
 		return ret.toArray( new String[ ret.size() ] );
 	}
